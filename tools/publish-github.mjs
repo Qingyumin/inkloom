@@ -35,6 +35,7 @@ const environment = {
   GH_CONFIG_DIR: process.env.GH_CONFIG_DIR || path.join(process.env.LOCALAPPDATA || '', 'InkletBuild/GitHubCLI'),
   GH_PAGER: 'cat',
   GIT_TERMINAL_PROMPT: '0',
+  GODEBUG: 'http2client=0',
 };
 
 if (process.platform === 'win32') {
@@ -404,8 +405,65 @@ if (existingRelease.status !== 0) {
   command(gh, ['release', 'upload', tag, '--repo', repositoryName, '--clobber', ...textAssets], 120000);
 }
 
-console.log(`5b. Uploading ${archiveName} (${(archiveBytes.length / (1024 * 1024)).toFixed(2)} MB)...`);
-command(gh, ['release', 'upload', tag, '--repo', repositoryName, '--clobber', zipAssetPath], 600000);
+console.log(`5b. Uploading ${archiveName} (${(archiveBytes.length / (1024 * 1024)).toFixed(2)} MB) over HTTP/1.1...`);
+let uploaded = false;
+let lastUploadError = null;
+for (let attempt = 1; attempt <= 3 && !uploaded; attempt++) {
+  try {
+    // Delete any half-uploaded partial asset with the same name before retrying
+    const relJson = JSON.parse(command(gh, ['api', `repos/${repositoryName}/releases/tags/${tag}`]));
+    const staleAsset = (relJson.assets || []).find(item => item.name === archiveName && item.size !== archiveBytes.length);
+    if (staleAsset) {
+      spawnSync(gh, ['api', '-X', 'DELETE', `repos/${repositoryName}/releases/assets/${staleAsset.id}`], {
+        env: environment,
+        encoding: 'utf8',
+        windowsHide: true,
+      });
+    }
+    command(gh, ['release', 'upload', tag, '--repo', repositoryName, '--clobber', zipAssetPath], 600000);
+    uploaded = true;
+  } catch (err) {
+    lastUploadError = err;
+    console.warn(`Upload attempt ${attempt}/3 encountered an error: ${err.message}`);
+  }
+}
+if (!uploaded && existsSync('C:/Windows/System32/curl.exe')) {
+  console.log('Attempting fallback upload via Windows Schannel curl.exe --http1.1...');
+  const token = command(gh, ['auth', 'token']);
+  const relJson = JSON.parse(command(gh, ['api', `repos/${repositoryName}/releases/tags/${tag}`]));
+  const uploadUrl = `https://uploads.github.com/repos/${repositoryName}/releases/${relJson.id}/assets?name=${encodeURIComponent(archiveName)}`;
+  const curlArgs = [
+    '-sS',
+    '--fail-with-body',
+    '--http1.1',
+    '-X',
+    'POST',
+    '-H',
+    `Authorization: Bearer ${token}`,
+    '-H',
+    'Accept: application/vnd.github+json',
+    '-H',
+    'Content-Type: application/zip',
+    '--data-binary',
+    `@${zipAssetPath}`,
+    uploadUrl,
+  ];
+  if (environment.HTTPS_PROXY) {
+    curlArgs.unshift('-x', environment.HTTPS_PROXY);
+  }
+  const curlRes = spawnSync('C:/Windows/System32/curl.exe', curlArgs, {
+    env: environment,
+    encoding: 'utf8',
+    windowsHide: true,
+    timeout: 600000,
+  });
+  if (curlRes.status === 0) {
+    uploaded = true;
+  } else {
+    throw lastUploadError || new Error(`curl upload failed: ${(curlRes.stderr || curlRes.stdout || '').trim()}`);
+  }
+}
+if (!uploaded) throw lastUploadError;
 
 const repoMeta = JSON.parse(command(gh, ['api', `repos/${repositoryName}`]));
 const releaseMeta = JSON.parse(command(gh, ['api', `repos/${repositoryName}/releases/tags/${tag}`]));

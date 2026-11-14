@@ -147,7 +147,7 @@
 
 ### 1. 直接下载 Windows 便携版（免安装、无需配置开发环境）
 
-1. 前往 **[GitHub Releases 发布页](https://github.com/Qingyumin/inkloom/releases/tag/v3.1.0)** 下载 **`Inkloom-3.1.0-Windows-x64.zip`**（约 `32.8 MB`，已内置全部离线前端引擎、数学公式、图表与 8 套白板开源字体）。
+1. 前往 **[GitHub Releases 发布页](https://github.com/Qingyumin/inkloom/releases/tag/v3.1.0)** 下载 **`Inkloom-3.1.0-Windows-x64.zip`**（约 `35.7 MB`，已内置全部离线前端引擎、数学公式、图表与 8 套白板开源字体）。
 2. 将压缩包**完整解压**到本地文件夹（请保留目录内的 `Inkloom.exe`、`Inkloom.resources`、`WebView2` 组件与 `licenses/`，不要只将 `Inkloom.exe` 单独移出目录运行）。
 3. 双击 **`Inkloom.exe`** 即可启动。首次运行会在 `%LOCALAPPDATA%\Inkloom\StarterVault` 自动创建包含 **`Inkloom使用方法/`** 互动实操教程的示例知识库；你也可以随时通过顶栏「文件 → 打开知识库」打开本地任意 Markdown 文件夹。
 
