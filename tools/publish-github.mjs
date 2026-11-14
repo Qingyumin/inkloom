@@ -352,7 +352,7 @@ if (remoteTree.truncated || remoteBlobs.length !== trackedFiles.length) {
   throw new Error(`Remote tree mismatch: remote=${remoteBlobs.length}, local=${trackedFiles.length}`);
 }
 
-console.log(`5. Publishing GitHub Release ${tag} with verified ZIP & SHA256SUMS...`);
+console.log(`5a. Creating or updating GitHub Release ${tag} metadata & checksums...`);
 const existingRelease = spawnSync(gh, ['api', `repos/${repositoryName}/releases/tags/${tag}`], {
   env: environment,
   encoding: 'utf8',
@@ -360,12 +360,12 @@ const existingRelease = spawnSync(gh, ['api', `repos/${repositoryName}/releases/
   timeout: 30000,
 });
 const notesFile = path.join(outputDir, `release-notes-${tag}.md`);
-const assetArgs = [
-  path.join(outputDir, archiveName),
+const textAssets = [
   path.join(outputDir, 'SHA256SUMS.txt'),
   path.join(outputDir, 'LICENSE'),
   path.join(outputDir, 'THIRD-PARTY-NOTICES.txt'),
 ];
+const zipAssetPath = path.join(outputDir, archiveName);
 if (existingRelease.status !== 0) {
   command(
     gh,
@@ -381,9 +381,9 @@ if (existingRelease.status !== 0) {
       `Inkloom 墨图 ${tag} — 本地优先双链知识图谱与长稿创作工作台`,
       '--notes-file',
       notesFile,
-      ...assetArgs,
+      ...textAssets,
     ],
-    300000
+    120000
   );
 } else {
   command(
@@ -401,8 +401,11 @@ if (existingRelease.status !== 0) {
     ],
     120000
   );
-  command(gh, ['release', 'upload', tag, '--repo', repositoryName, '--clobber', ...assetArgs], 300000);
+  command(gh, ['release', 'upload', tag, '--repo', repositoryName, '--clobber', ...textAssets], 120000);
 }
+
+console.log(`5b. Uploading ${archiveName} (${(archiveBytes.length / (1024 * 1024)).toFixed(2)} MB)...`);
+command(gh, ['release', 'upload', tag, '--repo', repositoryName, '--clobber', zipAssetPath], 600000);
 
 const repoMeta = JSON.parse(command(gh, ['api', `repos/${repositoryName}`]));
 const releaseMeta = JSON.parse(command(gh, ['api', `repos/${repositoryName}/releases/tags/${tag}`]));
