@@ -1,0 +1,10 @@
+{
+  "id": "note-views",
+  "name": "笔记视图",
+  "version": "0.5.4",
+  "minHost": "0.5.4",
+  "entry": "main.js",
+  "activation": ["startup", "manual"],
+  "dependencies": [],
+  "capabilities": ["metadata.read", "vault.write", "views", "commands", "settings"]
+}

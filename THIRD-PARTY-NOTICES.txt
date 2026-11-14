@@ -1,0 +1,62 @@
+Inkloom 墨图 (v3.1.0) — Third-Party Software Notices & Open-Source Acknowledgments
+====================================================================================
+
+Inkloom 墨图 is licensed under the MIT License (see LICENSE).
+It incorporates or builds upon open-source software, fonts, and runtime components
+governed by their respective permissive licenses. Complete license texts for all
+346 bundled npm packages, 8 whiteboard font families (233 font files), and the
+Microsoft Edge WebView2 SDK are preserved in the `licenses/` directory.
+
+1. Core Open-Source Libraries & Engines
+---------------------------------------
+- ProseMirror (prosemirror-model, prosemirror-state, prosemirror-view,
+  prosemirror-transform, prosemirror-commands, prosemirror-keymap,
+  prosemirror-markdown, prosemirror-schema-basic, prosemirror-schema-list,
+  prosemirror-tables) — Copyright (C) Marijn Haverbeke and contributors (MIT)
+- CodeMirror 6 & Lezer (@codemirror/*, @lezer/*) — Copyright (C) Marijn Haverbeke
+  and contributors (MIT)
+- markdown-it & markdown-it-texmath — Copyright (c) Vitaly Puzrin, Alex Kocharin,
+  Stefan Goessner (MIT)
+- Excalidraw (@excalidraw/excalidraw) & Rough.js — Copyright (c) Excalidraw
+  contributors / Preet Shihn (MIT)
+- D3 Force & Quadtree (d3-force, d3-dispatch, d3-quadtree, d3-timer) —
+  Copyright 2010-2023 Mike Bostock (ISC)
+- Cytoscape.js & fCoSE / CoSE-Bilkent — Copyright (c) The Cytoscape Consortium
+  & i-Vis Research Lab (MIT)
+- TanStack Table (@tanstack/table-core) — Copyright (c) Tanner Linsley (MIT)
+- GridStack.js (gridstack) — Copyright (c) Alain Dumesny, Dylan Weiss,
+   Pavel Reznikov (MIT)
+- FullCalendar (@fullcalendar/core, @fullcalendar/daygrid,
+  @fullcalendar/interaction) — Copyright (c) Adam Shaw (MIT)
+- rrule — Copyright (c) Jakub Roztocil and contributors (BSD-3-Clause)
+- MathJax (mathjax-full) — Copyright (c) The MathJax Consortium (Apache-2.0)
+- Mermaid (mermaid) — Copyright (c) Knut Sveidqvist and contributors (MIT)
+- PDF.js (pdfjs-dist) — Copyright (c) Mozilla Foundation (Apache-2.0)
+- epub.js (epubjs) — Copyright (c) Futurepress (BSD-2-Clause)
+- docx — Copyright (c) Dolan Miu (MIT)
+- DOMPurify — Copyright (c) Cure53 / Mario Heiderich (MPL-2.0 OR Apache-2.0)
+- Comlink — Copyright 2019 Google LLC (Apache-2.0)
+- yaml — Copyright Eemeli Aro (ISC)
+- Lucide Icons (lucide) — Copyright (c) Lucide Contributors (ISC)
+- JSZip — Copyright (c) Stuart Knightley et al. (MIT)
+- @xmldom/xmldom — Copyright (c) xmldom contributors (MIT)
+- Microsoft Edge WebView2 SDK — Copyright (c) Microsoft Corporation
+  (see licenses/WebView2-LICENSE.txt)
+- Shared Core Editor & Theme Foundation from Inklet (vendor/inklet) —
+  Copyright (c) 2026 泰安市岱岳区清云智数企业管理咨询工作室 (MIT)
+
+2. Open-Source Fonts
+--------------------
+- Manrope (@fontsource/manrope) — Copyright (c) Mikhail Sharanda (SIL OFL 1.1)
+- Literata (@fontsource/literata) — Copyright (c) TypeTogether / Google (SIL OFL 1.1)
+- Whiteboard Bundled Fonts (see licenses/whiteboard-fonts/font-manifest.json and
+  accompanying LICENSE / NOTICE files for Assistant, Cascadia Code, Comic Shanns,
+  Excalifont, Lilita One, Nunito, Virgil, and Xiaolai) — SIL Open Font License 1.1
+
+3. Methodology & Product Design Tributes (Clean-Room Independent Implementation)
+--------------------------------------------------------------------------------
+Inkloom pays tribute to Niklas Luhmann's Zettelkasten method, Andrej Karpathy's
+LLM Wiki compilation paradigm, Piotr Wozniak's SuperMemo SM-2 algorithm, Anki,
+Obsidian (JSON Canvas 1.0 & Dataview query inspiration), Notion, and Logseq.
+All Inkloom source code is independently implemented without copying proprietary
+or copyleft-restricted source code.

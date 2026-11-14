@@ -1,0 +1,1370 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inkloom 墨图 · 外置轻薄水泡周界 UI（最大化中央区）与简约坐标轴《认知演进史》原型</title>
+  <style>
+    :root {
+      /* Exact Inkloom Native Light Palette */
+      --perimeter-bg: #ebeef2;
+      --perimeter-grad: linear-gradient(135deg, #e8edf2 0%, #eef1f5 50%, #e7ecee 100%);
+      --canvas-bg: #ffffff;
+      --surface-bg: #f7f8fa;
+      --surface-hover: #eff2f5;
+      --border-line: #e1e5ea;
+      --border-strong: #cfd6de;
+      --ink: #26292e;
+      --ink-secondary: #4a515c;
+      --muted: #6f7782;
+      --accent: #287d77;
+      --accent-soft: rgba(40, 125, 119, 0.10);
+      --accent-border: rgba(40, 125, 119, 0.32);
+      --blue: #2b6cb0;
+      --purple: #6b46c1;
+      --amber: #b75d28;
+      --rose: #b83280;
+      --emerald: #2f855a;
+      --dew-bg: rgba(255, 255, 255, 0.78);
+      --dew-active: #ffffff;
+      --dew-border: rgba(255, 255, 255, 0.92);
+      --dew-shadow: 0 2px 6px rgba(20, 28, 40, 0.06), 0 0 0 1px rgba(30, 40, 55, 0.07);
+      --dew-active-shadow: 0 3px 10px rgba(20, 28, 40, 0.11), 0 0 0 1px rgba(40, 125, 119, 0.35);
+      --frame-radius: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--perimeter-grad);
+      font-family: 'Manrope', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: var(--ink);
+      font-size: 13px;
+      user-select: none;
+    }
+
+    /* =========================================================================
+       OUTER SHELL: ULTRA-SLIM PERIMETER TO MAXIMIZE CENTRAL WORKSPACE (>94% AREA)
+       Top: 36px | Left: 40px | Right: 36px | Bottom: 6px
+       ========================================================================= */
+    .inkloom-perimeter-shell {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      padding: 36px 36px 6px 40px;
+      display: flex;
+    }
+
+    /* =========================================================================
+       1. LEFT FIXED OUTER DEWDROP RAIL (将图2左侧红框图标拿出框体，作为外置紧凑水泡)
+       Width: 40px, Buttons: 28px × 28px dewdrops
+       ========================================================================= */
+    .left-dewdrop-rail {
+      position: absolute;
+      left: 5px;
+      top: 38px;
+      bottom: 8px;
+      width: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 20;
+    }
+    .left-dewdrop-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+    .dew-icon-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 0;
+      background: var(--dew-bg);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--dew-shadow);
+      color: var(--ink-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1), background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
+    }
+    .dew-icon-btn:hover {
+      background: var(--dew-active);
+      color: var(--ink);
+      transform: translateY(-1px);
+    }
+    .dew-icon-btn.active {
+      background: var(--dew-active);
+      color: var(--accent);
+      box-shadow: var(--dew-active-shadow);
+    }
+    .dew-icon-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      stroke-width: 1.85;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* =========================================================================
+       2. TOP OUTER DEWDROP TABS + CORNER FOLDING OVERFLOW (图2顶部红框外置轻薄水泡页签)
+       Height: 26px slim pills sitting in the 36px top perimeter
+       ========================================================================= */
+    .top-dewdrop-bar {
+      position: absolute;
+      top: 5px;
+      left: 42px;
+      right: 150px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 20;
+    }
+    .dew-brand-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 26px;
+      padding: 0 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: var(--dew-shadow);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-right: 4px;
+    }
+    .dew-brand-chip .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .dew-tab-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 26px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 0;
+      background: var(--dew-bg);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--dew-shadow);
+      color: var(--ink-secondary);
+      font-size: 11.5px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 140ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .dew-tab-pill:hover {
+      background: var(--dew-active);
+      color: var(--ink);
+    }
+    .dew-tab-pill.active {
+      background: var(--dew-active);
+      color: var(--accent);
+      font-weight: 600;
+      box-shadow: var(--dew-active-shadow);
+    }
+    .dew-tab-pill .tab-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.75;
+    }
+    .dew-tab-pill .tab-close {
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: 2px;
+      opacity: 0.65;
+    }
+    .dew-tab-pill .tab-close:hover { opacity: 1; color: var(--rose); }
+
+    /* =========================================================================
+       3. TOP-RIGHT CORNER FOLDING DEWDROP ("上面如果多了可以折叠在边角")
+       Frame corner center is at (56px from right, 56px from top) with R_frame = 20px.
+       Pill centerline is 18px from top & 18px from right => R_arc = 56 - 18 = 38px.
+       With stroke-width = 26px (half = 13px), inner edge is at R = 25px (exact 5px uniform gap!).
+       ========================================================================= */
+    .corner-fold-wrap {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 160px;
+      height: 140px;
+      z-index: 25;
+      pointer-events: none;
+    }
+    .corner-fold-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .corner-fold-trigger {
+      cursor: pointer;
+      pointer-events: auto;
+      transition: filter 150ms ease;
+    }
+    .corner-fold-trigger:hover {
+      filter: drop-shadow(0 2px 6px rgba(40, 125, 119, 0.22));
+    }
+    .corner-fold-text {
+      font-size: 10.5px;
+      font-weight: 600;
+      fill: var(--accent);
+      letter-spacing: 0.02em;
+      pointer-events: none;
+    }
+
+    /* Folded Overflow Tabs Popover at Top-Right Corner */
+    .corner-overflow-menu {
+      position: absolute;
+      top: 34px;
+      right: 40px;
+      width: 236px;
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+      border-radius: 12px;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+      padding: 6px;
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .corner-overflow-menu[hidden] { display: none !important; }
+    .corner-overflow-title {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 4px 8px 2px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .corner-overflow-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px;
+      border-radius: 7px;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font-size: 12px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .corner-overflow-item:hover { background: var(--surface-hover); color: var(--accent); }
+
+    /* =========================================================================
+       4. RIGHT OUTER DEWDROP STRIP ("右侧可以放右侧栏的东西")
+       Slim 26px wide vertical dewdrop pills hugging the right outer edge
+       ========================================================================= */
+    .right-dewdrop-rail {
+      position: absolute;
+      right: 5px;
+      top: 138px;
+      bottom: 8px;
+      width: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      z-index: 20;
+    }
+    .right-dew-pill {
+      width: 26px;
+      padding: 9px 0;
+      border-radius: 999px;
+      border: 0;
+      background: var(--dew-bg);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--dew-shadow);
+      color: var(--ink-secondary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 140ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .right-dew-pill:hover {
+      background: var(--dew-active);
+      color: var(--ink);
+      transform: translateX(-1px);
+    }
+    .right-dew-pill.active {
+      background: var(--dew-active);
+      color: var(--accent);
+      box-shadow: var(--dew-active-shadow);
+    }
+    .right-dew-pill .v-text {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .right-dew-pill .v-count {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 1px 4px;
+      border-radius: 999px;
+    }
+
+    /* =========================================================================
+       5. CENTRAL MAXIMIZED WORKSPACE FRAME (最大化中央区，保持原软件干净浅色风格)
+       ========================================================================= */
+    .central-workspace-frame {
+      flex: 1;
+      height: 100%;
+      background: var(--canvas-bg);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--frame-radius);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Slim 38px Context Bar inside Central Frame */
+    .frame-top-bar {
+      height: 38px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border-line);
+      background: var(--surface-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .frame-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+    }
+    .frame-pills-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ux-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 25px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 500;
+      border: 1px solid var(--border-line);
+      background: #ffffff;
+      color: var(--ink-secondary);
+      cursor: pointer;
+    }
+    .ux-pill.active, .ux-pill.teal {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .ux-pill.soft-teal {
+      background: rgba(40, 125, 119, 0.08);
+      border-color: rgba(40, 125, 119, 0.28);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .ux-pill.soft-blue {
+      background: rgba(43, 108, 176, 0.08);
+      border-color: rgba(43, 108, 176, 0.28);
+      color: var(--blue);
+      font-weight: 600;
+    }
+    .ux-pill.soft-purple {
+      background: rgba(107, 70, 193, 0.08);
+      border-color: rgba(107, 70, 193, 0.28);
+      color: var(--purple);
+      font-weight: 600;
+    }
+    .ux-pill.soft-amber {
+      background: rgba(183, 93, 40, 0.08);
+      border-color: rgba(183, 93, 40, 0.28);
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    /* Main Split Inside Frame: Left Tree (Optional) + Center Stage + Right Context (Optional) */
+    .frame-body {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Optional Collapsible Left Sub-Sidebar (204px, same as Figure 2) */
+    .left-sub-drawer {
+      width: 204px;
+      border-right: 1px solid var(--border-line);
+      background: #fbfcfd;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .left-sub-drawer[hidden] { display: none !important; }
+    .sub-drawer-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border-line);
+      font-size: 11px;
+    }
+    .sub-drawer-tabs span {
+      text-align: center;
+      padding: 4px 2px;
+      border-radius: 5px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .sub-drawer-tabs span.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .sub-tree-list {
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 12px;
+    }
+    .sub-tree-item {
+      padding: 6px 8px;
+      border-radius: 6px;
+      color: var(--ink-secondary);
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .sub-tree-item:hover { background: var(--surface-hover); }
+    .sub-tree-item.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Center Stage Views */
+    .center-stage {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      overflow-y: auto;
+      padding: 18px 24px;
+      background: #ffffff;
+    }
+    .view-pane { display: none; }
+    .view-pane.active { display: block; }
+
+    /* Optional Right Context Drawer (242px, controlled by Right Outer Dewdrop Pills) */
+    .right-context-drawer {
+      width: 242px;
+      border-left: 1px solid var(--border-line);
+      background: #fbfcfd;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .right-context-drawer[hidden] { display: none !important; }
+    .rc-header {
+      height: 34px;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--border-line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+    .rc-body {
+      padding: 10px 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .rc-item {
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+    .rc-item strong { display: block; color: var(--ink); margin-bottom: 2px; }
+    .rc-item small { color: var(--muted); }
+
+    /* =========================================================================
+       VIEW 1: WORKSPACE HOME (以工作台为例，最大化中央网格工作区)
+       ========================================================================= */
+    .ws-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border-line);
+    }
+    .ws-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .ws-card {
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ws-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink);
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--surface-hover);
+    }
+    .ws-span-5 { grid-column: span 5; }
+    .ws-span-7 { grid-column: span 7; }
+    .ws-span-4 { grid-column: span 4; }
+    .ws-input {
+      width: 100%;
+      height: 30px;
+      padding: 0 10px;
+      border: 1px solid var(--border-line);
+      border-radius: 6px;
+      font-size: 12px;
+      background: var(--surface-bg);
+    }
+    .ws-textarea {
+      width: 100%;
+      height: 58px;
+      padding: 8px 10px;
+      border: 1px solid var(--border-line);
+      border-radius: 6px;
+      font-size: 12px;
+      background: var(--surface-bg);
+      resize: none;
+    }
+    .ws-task-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-line);
+      background: var(--surface-bg);
+      font-size: 12px;
+    }
+    .ws-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+      font-size: 11px;
+    }
+    .ws-cal-cell {
+      padding: 6px 2px;
+      border-radius: 5px;
+      background: var(--surface-bg);
+      color: var(--ink-secondary);
+    }
+    .ws-cal-cell.has-event {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+      border: 1px solid var(--accent-border);
+    }
+
+    /* =========================================================================
+       VIEW 2: MINIMALIST HORIZONTAL AXIS COGNITIVE CHRONICLE
+       (③ 简约横向坐标轴 + 时间刻度 + 坐标上有点 + 下方具体双链卡片，与原软件风格一致)
+       ========================================================================= */
+    .chronicle-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border-line);
+    }
+    .chronicle-header-bar h2 {
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Minimalist Horizontal Coordinate Axis Card (Light, Clean, Crisp) */
+    .minimal-axis-card {
+      background: var(--surface-bg);
+      border: 1px solid var(--border-line);
+      border-radius: 10px;
+      padding: 14px 18px 10px;
+      margin-bottom: 16px;
+    }
+    .minimal-axis-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+    .axis-legend {
+      display: flex;
+      gap: 14px;
+      font-size: 11px;
+    }
+    .axis-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--ink-secondary);
+    }
+    .axis-dot-sample {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .minimal-axis-svg {
+      width: 100%;
+      height: 118px;
+      display: block;
+    }
+    .axis-point-group {
+      cursor: pointer;
+    }
+    .axis-point-group:hover circle.point-core {
+      r: 6.5px;
+    }
+
+    /* Concrete Chronicle Cards Below Axis (上下有序单列排布：上层坐标轴 → 中层全宽纪传卡片流 → 下层全宽AI点评，不左右分栏) */
+    .chronicle-detail-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .chronicle-item-card {
+      background: #ffffff;
+      border: 1px solid var(--border-line);
+      border-radius: 10px;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      transition: border-color 140ms ease, box-shadow 140ms ease;
+    }
+    .chronicle-item-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 2px 10px rgba(40, 125, 119, 0.08);
+    }
+    .cic-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .cic-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .cic-compare {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 8px;
+      font-size: 11.5px;
+    }
+    .cic-col {
+      padding: 7px 10px;
+      border-radius: 6px;
+      background: var(--surface-bg);
+      border-left: 2.5px solid var(--border-strong);
+      line-height: 1.55;
+      color: var(--ink-secondary);
+    }
+    .cic-col.before { border-left-color: var(--amber); }
+    .cic-col.after { border-left-color: var(--accent); background: rgba(40, 125, 119, 0.04); }
+    .cic-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .native-wikilink {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 1px 8px;
+      border-radius: 999px;
+      background: rgba(40, 125, 119, 0.09);
+      border: 1px solid rgba(40, 125, 119, 0.28);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* Status Footer Inside Frame */
+    .frame-status-bar {
+      height: 24px;
+      padding: 0 14px;
+      border-top: 1px solid var(--border-line);
+      background: var(--surface-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="inkloom-perimeter-shell">
+
+    <!-- =======================================================================
+         1. LEFT FIXED OUTER DEWDROP ICONS (把图2左侧框内图标拿到框体外作为紧凑水泡)
+         ======================================================================= -->
+    <nav class="left-dewdrop-rail" aria-label="外置左侧水泡导航栏">
+      <div class="left-dewdrop-stack">
+        <button type="button" class="dew-icon-btn" id="toggle-left-tree" title="显示或收起左侧目录抽屉">
+          <svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn active" data-view="workspace" title="工作台 (Workspace Home)">
+          <svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" data-view="chronicle" title="认知演进史（简约坐标轴与双链纪传）">
+          <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/><circle cx="19" cy="9" r="2"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" data-view="note" title="知识库笔记编辑">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" title="标签索引">
+          <svg viewBox="0 0 24 24"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" title="星标收藏">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" title="今日手记">
+          <svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" title="万象知识星图">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><line x1="10.5" x2="6.5" y1="7.5" y2="16.5"/><line x1="13.5" x2="17.5" y1="7.5" y2="16.5"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" title="智识与 Karpathy Wiki 编译器">
+          <svg viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" title="研究资料与五色高亮批注">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" title="多维笔记视图">
+          <svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="3" x2="21" y1="15" y2="15"/><line x1="9" x2="9" y1="9" y2="21"/></svg>
+        </button>
+      </div>
+      <div class="left-dewdrop-stack">
+        <button type="button" class="dew-icon-btn" title="刷新知识库">
+          <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        </button>
+        <button type="button" class="dew-icon-btn" title="设置">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- =======================================================================
+         2. TOP OUTER DEWDROP TABS (顶部外置轻薄水泡多页签栏)
+         ======================================================================= -->
+    <header class="top-dewdrop-bar" aria-label="顶部外置水泡页签栏">
+      <div class="dew-brand-chip">
+        <span class="brand-dot"></span>
+        <span>Inkloom <small style="font-weight:500;color:var(--muted)">墨图</small></span>
+      </div>
+      <button type="button" class="dew-tab-pill active" data-view="workspace">
+        <span class="tab-dot"></span>
+        <span>工作台 · Workspace</span>
+      </button>
+      <button type="button" class="dew-tab-pill" data-view="chronicle">
+        <span class="tab-dot"></span>
+        <span>认知演进史 · 坐标与纪传</span>
+        <span class="tab-close">×</span>
+      </button>
+      <button type="button" class="dew-tab-pill" data-view="note">
+        <span class="tab-dot"></span>
+        <span>00-墨图导览与万象星图.md</span>
+        <span class="tab-close">×</span>
+      </button>
+      <button type="button" class="dew-tab-pill" data-view="note">
+        <span class="tab-dot"></span>
+        <span>wiki / 有限产能与热力学唤醒.md</span>
+        <span class="tab-close">×</span>
+      </button>
+      <button type="button" class="dew-tab-pill" data-view="note">
+        <span class="tab-dot"></span>
+        <span>02-知识图谱与局部星图.md</span>
+        <span class="tab-close">×</span>
+      </button>
+    </header>
+
+    <!-- =======================================================================
+         3. TOP-RIGHT CORNER FOLDING DEWDROP ("上面如果多了可以折叠在边角")
+         Exact concentric 26px-thick corner-wrapping pill around top-right bend
+         ======================================================================= -->
+    <div class="corner-fold-wrap" title="超出顶栏的页签自动沿右上边角弧度同心折叠收纳">
+      <svg class="corner-fold-svg" viewBox="0 0 160 140">
+        <defs>
+          <path id="slimCornerPath" d="M 16,18 L 104,18 A 38,38 0 0 1 142,56 L 142,116" fill="none" />
+          <path id="slimCornerText" d="M 20,21.5 L 104,21.5 A 34.5,34.5 0 0 1 138.5,56 L 138.5,114" fill="none" />
+        </defs>
+        <g class="corner-fold-trigger" id="corner-fold-btn">
+          <use href="#slimCornerPath" stroke="rgba(20, 28, 40, 0.08)" stroke-width="28" stroke-linecap="round" />
+          <use href="#slimCornerPath" stroke="#ffffff" stroke-width="26" stroke-linecap="round" />
+          <use href="#slimCornerPath" stroke="rgba(40, 125, 119, 0.35)" stroke-width="26" stroke-linecap="round" fill="none" />
+          <text class="corner-fold-text">
+            <textPath href="#slimCornerText" startOffset="4%">
+              +3 折叠页签 · 04-YAML属性... ▾
+            </textPath>
+          </text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Corner Folded Tabs Dropdown -->
+    <div class="corner-overflow-menu" id="corner-overflow-menu" hidden>
+      <div class="corner-overflow-title">
+        <span>边角折叠页签 (3)</span>
+        <span>点击切换</span>
+      </div>
+      <button type="button" class="corner-overflow-item" data-view="note">
+        <span>04-YAML属性与标签体系.md</span>
+        <small style="color:var(--muted)">根目录</small>
+      </button>
+      <button type="button" class="corner-overflow-item" data-view="note">
+        <span>03-长文写作与工业级导出.md</span>
+        <small style="color:var(--muted)">根目录</small>
+      </button>
+      <button type="button" class="corner-overflow-item" data-view="note">
+        <span>raw / Karpathy知识编译手记.md</span>
+        <small style="color:var(--muted)">raw/</small>
+      </button>
+    </div>
+
+    <!-- =======================================================================
+         4. RIGHT OUTER DEWDROP STRIP ("右侧可以放右侧栏的东西")
+         ======================================================================= -->
+    <aside class="right-dewdrop-rail" aria-label="外置右侧栏水泡条">
+      <button type="button" class="right-dew-pill" data-right-tab="graph" title="展开/收起局部图谱">
+        <span class="v-count">13</span>
+        <span class="v-text">局部图谱</span>
+      </button>
+      <button type="button" class="right-dew-pill" data-right-tab="backlinks" title="展开/收起反向链接 (入链)">
+        <span class="v-count">22</span>
+        <span class="v-text">入链脉络</span>
+      </button>
+      <button type="button" class="right-dew-pill" data-right-tab="outgoing" title="展开/收起出链与提及">
+        <span class="v-count">24</span>
+        <span class="v-text">出链提及</span>
+      </button>
+      <button type="button" class="right-dew-pill" data-right-tab="awake" title="ALGO-001 热力学共振唤醒与智识副驾驶">
+        <span class="v-count">2</span>
+        <span class="v-text">共振智识</span>
+      </button>
+    </aside>
+
+    <!-- =======================================================================
+         5. CENTRAL MAXIMIZED WORKSPACE FRAME (最大化中央区 >94% 视口占比)
+         ======================================================================= -->
+    <main class="central-workspace-frame">
+      <!-- Slim 38px Top Context Bar -->
+      <div class="frame-top-bar">
+        <div class="frame-title-group">
+          <strong id="frame-current-title">工作台 · 可组合个人知识中枢</strong>
+          <span style="color:var(--muted)" id="frame-current-sub">6 个模块运行中 · 中央区已最大化（左右与顶栏均已外置为轻薄水泡）</span>
+        </div>
+        <div class="frame-pills-bar">
+          <button type="button" class="ux-pill active" data-view="workspace">🏠 工作台示例</button>
+          <button type="button" class="ux-pill" data-view="chronicle">📈 认知演进史（简约横向坐标轴）</button>
+          <button type="button" class="ux-pill" data-view="note">📝 笔记编辑与右侧栏水泡联动</button>
+          <button type="button" class="ux-pill soft-teal" id="toggle-right-panel-btn">⇄ 展开/收起右侧栏抽屉</button>
+        </div>
+      </div>
+
+      <div class="frame-body">
+        <!-- Optional Left Sub-Drawer (Hidden by default in Workspace to maximize center; visible when toggled) -->
+        <aside class="left-sub-drawer" id="left-sub-drawer" hidden>
+          <div class="sub-drawer-tabs">
+            <span class="active">知识库</span>
+            <span>标签</span>
+            <span>星标</span>
+            <span>大纲</span>
+          </div>
+          <div class="sub-tree-list">
+            <div class="sub-tree-item active"><span>00-墨图导览与万象星图</span><small>22</small></div>
+            <div class="sub-tree-item"><span>01-双链笔记与卡片盒</span><small>15</small></div>
+            <div class="sub-tree-item"><span>02-知识图谱与局部星图</span><small>13</small></div>
+            <div class="sub-tree-item"><span>03-长文写作与导出</span><small>9</small></div>
+            <div class="sub-tree-item"><span>04-YAML属性与标签体系</span><small>11</small></div>
+            <div class="sub-tree-item"><span>🌌 认知演进史.md</span><small>12</small></div>
+          </div>
+        </aside>
+
+        <!-- CENTER STAGE -->
+        <div class="center-stage">
+
+          <!-- =================================================================
+               PANE A: WORKSPACE HOME (以工作台为例，最大化中央区域)
+               ================================================================= -->
+          <section class="view-pane active" id="pane-workspace">
+            <div class="ws-toolbar">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="ux-pill soft-teal">预设模板：日常均衡工作台</span>
+                <span class="ux-pill soft-blue">待办 4 项 · 今日到期 2 项</span>
+                <span class="ux-pill soft-purple">Wiki 晶体 14 篇 · Raw 素材 9 篇</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="ux-pill">导出工作台模板</span>
+                <span class="ux-pill">重置网格</span>
+              </div>
+            </div>
+
+            <div class="ws-grid">
+              <!-- Widget 1: Quick Capture -->
+              <div class="ws-card ws-span-5">
+                <div class="ws-card-head">
+                  <span>快速收集（直接写入本地 Markdown）</span>
+                  <div style="display:flex;gap:4px;">
+                    <span class="ux-pill soft-teal" style="height:22px;font-size:11px;">闪念 Memo</span>
+                    <span class="ux-pill" style="height:22px;font-size:11px;">待办任务</span>
+                    <span class="ux-pill" style="height:22px;font-size:11px;">Raw 素材</span>
+                  </div>
+                </div>
+                <input class="ws-input" value="探索图拉普拉斯热扩散在沉睡笔记唤醒中的应用" readonly />
+                <textarea class="ws-textarea" readonly>通过将左侧导航图标、顶部多页签与右侧关联栏外置为 28px 轻薄水泡，工作台中央可用面积提升 18% 以上。</textarea>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <small style="color:var(--muted)">自动附带时间戳并织入 [[今日手记]]</small>
+                  <span class="ux-pill teal" style="height:24px;">保存到知识库</span>
+                </div>
+              </div>
+
+              <!-- Widget 2: Tasks & Kanban -->
+              <div class="ws-card ws-span-7">
+                <div class="ws-card-head">
+                  <span>任务规划（清单 / 看板共享 Markdown 源文）</span>
+                  <div style="display:flex;gap:4px;">
+                    <span class="ux-pill soft-teal" style="height:22px;font-size:11px;">清单视图</span>
+                    <span class="ux-pill" style="height:22px;font-size:11px;">三态看板</span>
+                    <span class="ux-pill soft-amber" style="height:22px;font-size:11px;">今日到期 (2)</span>
+                  </div>
+                </div>
+                <div class="ws-task-row">
+                  <span>☑ 完成外置轻薄水泡周界 UI 与最大化中央区布局</span>
+                  <span class="ux-pill soft-teal" style="height:20px;font-size:10.5px;">已完成 · 2026-10-26</span>
+                </div>
+                <div class="ws-task-row">
+                  <span>◐ 将《认知演进史》升级为简约横向时间刻度坐标轴</span>
+                  <span class="ux-pill soft-blue" style="height:20px;font-size:10.5px;">进行中 · @due(2026-10-26)</span>
+                </div>
+                <div class="ws-task-row">
+                  <span>☐ 落地卡帕西 raw/ → wiki/ 编译算子 (Ingest / Query / Lint)</span>
+                  <span class="ux-pill soft-purple" style="height:20px;font-size:10.5px;">高优 · @repeat(weekly)</span>
+                </div>
+              </div>
+
+              <!-- Widget 3: Calendar -->
+              <div class="ws-card ws-span-4">
+                <div class="ws-card-head">
+                  <span>日程与手绘手帐月历</span>
+                  <small style="color:var(--muted)">2026 年 10 月</small>
+                </div>
+                <div class="ws-cal-grid">
+                  <strong>一</strong><strong>二</strong><strong>三</strong><strong>四</strong><strong>五</strong><strong>六</strong><strong>日</strong>
+                  <span class="ws-cal-cell">19</span><span class="ws-cal-cell">20</span><span class="ws-cal-cell has-event">21</span><span class="ws-cal-cell has-event">22</span><span class="ws-cal-cell">23</span><span class="ws-cal-cell has-event">24</span><span class="ws-cal-cell has-event">25</span>
+                </div>
+              </div>
+
+              <!-- Widget 4: Karpathy Wiki Compiler & Resonance Awakening -->
+              <div class="ws-card ws-span-4">
+                <div class="ws-card-head">
+                  <span>🔥 热力学共振唤醒 (ALGO-001)</span>
+                  <span class="ux-pill soft-amber" style="height:20px;font-size:10.5px;">沉睡 120+ 天</span>
+                </div>
+                <div class="ws-task-row" style="flex-direction:column;align-items:flex-start;gap:3px;">
+                  <strong>《替代料组优先级与动态库存分配》</strong>
+                  <small style="color:var(--muted)">同时接收今日 2 篇活跃笔记热传导（耦合热 u = 0.42）</small>
+                </div>
+                <div class="ws-task-row" style="flex-direction:column;align-items:flex-start;gap:3px;">
+                  <strong>《02-知识图谱与局部星图》</strong>
+                  <small style="color:var(--muted)">检测到与企业本体图谱存在结构洞桥接增益 +28%</small>
+                </div>
+              </div>
+
+              <!-- Widget 5: Projects & Starred -->
+              <div class="ws-card ws-span-4">
+                <div class="ws-card-head">
+                  <span>活跃项目与星标笔记</span>
+                  <small style="color:var(--accent)">3 个项目</small>
+                </div>
+                <div class="ws-task-row">
+                  <span>★ 00-墨图导览与万象星图</span>
+                  <small style="color:var(--muted)">22 双链</small>
+                </div>
+                <div class="ws-task-row">
+                  <span>★ 独创数学与物理知识算法白皮书</span>
+                  <small style="color:var(--muted)">7 大算法</small>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =================================================================
+               PANE B: MINIMALIST COGNITIVE EVOLUTION CHRONICLE
+               (③ 简约横向坐标轴 + 时间刻度 + 坐标上有点 + 下方具体双链卡片，与原软件风格一致)
+               ================================================================= -->
+          <section class="view-pane" id="pane-chronicle">
+            <div class="chronicle-header-bar">
+              <div>
+                <h2>📈 认知演进史（Cognitive Evolution Chronicle）</h2>
+                <small style="color:var(--muted)">上方为简约横向时间刻度坐标轴与认知里程碑点；下方为一一对应的《chronicles/认知演进史.md》双链纪传卡片与 AI 评注</small>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <span class="ux-pill soft-teal">全部航道 (6 个里程碑点)</span>
+                <span class="ux-pill">AI与知识图谱</span>
+                <span class="ux-pill">企业架构与算法</span>
+              </div>
+            </div>
+
+            <!-- Minimalist Horizontal Coordinate Axis with Time Ticks & Points (与原软件一致的清爽白底浅灰边框风格) -->
+            <div class="minimal-axis-card">
+              <div class="minimal-axis-top">
+                <strong style="color:var(--ink)">认知演进横向时间坐标轴（纵轴：知识能级 h · 横轴：时间刻度 · 点击坐标点定位下方具体卡片）</strong>
+                <div class="axis-legend">
+                  <span><i class="axis-dot-sample" style="background:#287d77"></i>启明立卡 (h≈1.0)</span>
+                  <span><i class="axis-dot-sample" style="background:#b83280"></i>认知拐点 (高惊奇度 S)</span>
+                  <span><i class="axis-dot-sample" style="background:#6b46c1"></i>相变晶体 (Wiki 凝结)</span>
+                  <span><i class="axis-dot-sample" style="background:#b75d28"></i>体系产出 (h≥2.5)</span>
+                </div>
+              </div>
+
+              <svg class="minimal-axis-svg" viewBox="0 0 960 116">
+                <!-- Subtle horizontal grid lines for Trophic Level h -->
+                <line x1="48" y1="22" x2="930" y2="22" stroke="#edf0f3" stroke-width="1" stroke-dasharray="3,3" />
+                <line x1="48" y1="52" x2="930" y2="52" stroke="#edf0f3" stroke-width="1" stroke-dasharray="3,3" />
+                <text x="10" y="25" fill="#8c95a1" font-size="10">h=3.0</text>
+                <text x="10" y="55" fill="#8c95a1" font-size="10">h=2.0</text>
+                <text x="10" y="85" fill="#8c95a1" font-size="10">h=1.0</text>
+
+                <!-- Main Horizontal Coordinate Axis Line (X-Axis) -->
+                <line x1="48" y1="84" x2="935" y2="84" stroke="#cbd2d9" stroke-width="1.5" />
+                <!-- Y-Axis Line -->
+                <line x1="48" y1="14" x2="48" y2="84" stroke="#cbd2d9" stroke-width="1.5" />
+
+                <!-- Smooth Minimalist Trajectory Polyline Connecting the Points -->
+                <polyline points="95,78 245,62 415,46 585,38 755,28 890,20" fill="none" stroke="#287d77" stroke-width="1.75" />
+
+                <!-- Point 1: 2026-08-15 -->
+                <g class="axis-point-group" transform="translate(95, 0)">
+                  <line x1="0" y1="78" x2="0" y2="84" stroke="#cbd2d9" stroke-width="1" />
+                  <line x1="0" y1="84" x2="0" y2="89" stroke="#6f7782" stroke-width="1.5" />
+                  <circle class="point-core" cx="0" cy="78" r="5" fill="#ffffff" stroke="#287d77" stroke-width="2.2" />
+                  <text x="0" y="67" text-anchor="middle" fill="#26292e" font-size="10.5" font-weight="600">初探双链卡片</text>
+                  <text x="0" y="103" text-anchor="middle" fill="#6f7782" font-size="10">2026-08-15</text>
+                </g>
+
+                <!-- Point 2: 2026-09-05 -->
+                <g class="axis-point-group" transform="translate(245, 0)">
+                  <line x1="0" y1="62" x2="0" y2="84" stroke="#e1e5ea" stroke-width="1" stroke-dasharray="2,2" />
+                  <line x1="0" y1="84" x2="0" y2="89" stroke="#6f7782" stroke-width="1.5" />
+                  <circle class="point-core" cx="0" cy="62" r="5" fill="#ffffff" stroke="#2b6cb0" stroke-width="2.2" />
+                  <text x="0" y="51" text-anchor="middle" fill="#26292e" font-size="10.5" font-weight="600">YAML与多维表</text>
+                  <text x="0" y="103" text-anchor="middle" fill="#6f7782" font-size="10">2026-09-05</text>
+                </g>
+
+                <!-- Point 3: 2026-09-18 (Selected Inflection Point) -->
+                <g class="axis-point-group" transform="translate(415, 0)">
+                  <line x1="0" y1="46" x2="0" y2="84" stroke="#b83280" stroke-width="1.2" stroke-dasharray="2,2" />
+                  <line x1="0" y1="84" x2="0" y2="89" stroke="#b83280" stroke-width="1.8" />
+                  <circle cx="0" cy="46" r="9" fill="rgba(184, 50, 128, 0.12)" />
+                  <circle class="point-core" cx="0" cy="46" r="5.5" fill="#b83280" stroke="#ffffff" stroke-width="1.8" />
+                  <text x="0" y="33" text-anchor="middle" fill="#b83280" font-size="10.5" font-weight="700">★ 写时编译 Wiki 拐点 (S=1.84)</text>
+                  <text x="0" y="103" text-anchor="middle" fill="#b83280" font-size="10" font-weight="700">2026-09-18</text>
+                </g>
+
+                <!-- Point 4: 2026-10-08 -->
+                <g class="axis-point-group" transform="translate(585, 0)">
+                  <line x1="0" y1="38" x2="0" y2="84" stroke="#e1e5ea" stroke-width="1" stroke-dasharray="2,2" />
+                  <line x1="0" y1="84" x2="0" y2="89" stroke="#6f7782" stroke-width="1.5" />
+                  <circle class="point-core" cx="0" cy="38" r="5" fill="#ffffff" stroke="#6b46c1" stroke-width="2.2" />
+                  <text x="0" y="27" text-anchor="middle" fill="#26292e" font-size="10.5" font-weight="600">有限产能与资源区间晶体</text>
+                  <text x="0" y="103" text-anchor="middle" fill="#6f7782" font-size="10">2026-10-08</text>
+                </g>
+
+                <!-- Point 5: 2026-10-19 -->
+                <g class="axis-point-group" transform="translate(755, 0)">
+                  <line x1="0" y1="28" x2="0" y2="84" stroke="#e1e5ea" stroke-width="1" stroke-dasharray="2,2" />
+                  <line x1="0" y1="84" x2="0" y2="89" stroke="#6f7782" stroke-width="1.5" />
+                  <circle class="point-core" cx="0" cy="28" r="5" fill="#ffffff" stroke="#6b46c1" stroke-width="2.2" />
+                  <text x="0" y="17" text-anchor="middle" fill="#26292e" font-size="10.5" font-weight="600">Hodge分层与本体打通</text>
+                  <text x="0" y="103" text-anchor="middle" fill="#6f7782" font-size="10">2026-10-19</text>
+                </g>
+
+                <!-- Point 6: 2026-10-26 -->
+                <g class="axis-point-group" transform="translate(890, 0)">
+                  <line x1="0" y1="20" x2="0" y2="84" stroke="#287d77" stroke-width="1.2" stroke-dasharray="2,2" />
+                  <line x1="0" y1="84" x2="0" y2="89" stroke="#287d77" stroke-width="1.8" />
+                  <circle cx="0" cy="20" r="8" fill="rgba(40, 125, 119, 0.14)" />
+                  <circle class="point-core" cx="0" cy="20" r="5.5" fill="#287d77" stroke="#ffffff" stroke-width="1.8" />
+                  <text x="-10" y="11" text-anchor="end" fill="#287d77" font-size="10.5" font-weight="700">七大物理算法白皮书 (h=2.9)</text>
+                  <text x="0" y="103" text-anchor="middle" fill="#287d77" font-size="10" font-weight="700">2026-10-26</text>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Concrete Details Below Coordinate Axis (下方具体认知史双链卡片 + AI 点评) -->
+            <div class="chronicle-detail-layout">
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                  <strong style="font-size:12px;color:var(--ink-secondary)">对应《chronicles/认知演进史.md》中的编年认知索引卡（点击双链直达原笔记）</strong>
+                  <small style="color:var(--muted)">共 6 处认知跃迁节点</small>
+                </div>
+
+                <article class="chronicle-item-card active">
+                  <div class="cic-head">
+                    <span class="cic-title">[2026-09-18 · 认知拐点] 从“读时切块 RAG”转向“卡帕西 raw/→wiki/ 写时知识编译”</span>
+                    <span class="ux-pill soft-amber" style="height:21px;font-size:10.5px;">惊奇度 S = 1.84 · 能级 h: 1.1 → 2.3</span>
+                  </div>
+                  <div class="cic-compare">
+                    <div class="cic-col before">
+                      <strong style="color:var(--amber)">【昔日旧知 / 原假设】</strong><br>
+                      认为把杂乱资料直接扔进向量库做读时检索（Read-Time Chunking）即可解决问答，忽视了跨资料矛盾与上下文膨胀。
+                    </div>
+                    <div class="cic-col after">
+                      <strong style="color:var(--accent)">【今日新知 / 认知提升】</strong><br>
+                      新资料进入 <code>raw/</code> 时即按 <code>RULES.md</code> 编译更新 <code>wiki/</code> 概念页与 <code>index.md</code> 目录路由，省去 82% 上下文消耗。
+                    </div>
+                  </div>
+                  <div class="cic-links">
+                    <span>关联双链与详细索引卡：</span>
+                    <span class="native-wikilink">[[raw/Karpathy知识库架构手记#L42]]</span>
+                    <span class="native-wikilink">[[wiki/写时知识编译器与Index路由]]</span>
+                    <span class="native-wikilink">[[01-双链笔记与卡片盒方法]]</span>
+                  </div>
+                </article>
+
+                <article class="chronicle-item-card">
+                  <div class="cic-head">
+                    <span class="cic-title">[2026-10-19 · 相变晶体] 将 Helmholtz-Hodge 拓扑能级分解同时用于个人星图与企业本体平台</span>
+                    <span class="ux-pill soft-purple" style="height:21px;font-size:10.5px;">相变度 Φ = 0.86 · 能级 h: 1.4 → 2.9</span>
+                  </div>
+                  <div class="cic-compare">
+                    <div class="cic-col before">
+                      <strong style="color:var(--amber)">【昔日旧知 / 原假设】</strong><br>
+                      双链图谱仅做 d3-force 平面弹簧展示，节点一多即成毛线球，看不出证据与结论的支撑层级。
+                    </div>
+                    <div class="cic-col after">
+                      <strong style="color:var(--accent)">【今日新知 / 认知提升】</strong><br>
+                      用营养级方程 (I-γΛ)h=1 自动分层为「L1 基石证据 → L2 概念晶体 → L3 顶层决策」，并用旋度揪出循环自证。
+                    </div>
+                  </div>
+                  <div class="cic-links">
+                    <span>关联双链与详细索引卡：</span>
+                    <span class="native-wikilink">[[docs/ORIGINAL-ALGORITHMS#算法3]]</span>
+                    <span class="native-wikilink">[[02-知识图谱与局部星图]]</span>
+                  </div>
+                </article>
+              </div>
+
+              <!-- Right Column: AI Cognitive Critique (基于模型对认知演进史的点评：卓越之处与不足之处) -->
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                  <strong style="font-size:12px;color:var(--ink-secondary)">AI 认知演进点评（卓越之处与待补盲区）</strong>
+                  <span class="ux-pill soft-teal" style="height:20px;font-size:10.5px;">重新评估</span>
+                </div>
+                <div class="chronicle-item-card" style="display:flex;flex-direction:column;gap:10px;">
+                  <div class="cic-col after" style="border-left-width:3px;">
+                    <strong style="color:var(--emerald)">✓ 卓越之处（Cognitive Strengths）</strong><br>
+                    1. <strong>高能级转化率</strong>：在『图谱算法与企业本体』方向实现了从 h=1.0 原始摘录到 h=2.9 专利级白皮书的完整跃迁，Hodge 拓扑相干度达 94.2%；<br>
+                    2. <strong>跨界迁移能力强</strong>：成功将个人笔记的能级分层模型复用于企业本体图谱。
+                  </div>
+                  <div class="cic-col before" style="border-left-width:3px;">
+                    <strong style="color:var(--amber)">! 不足之处与盲区（Blind Spots）</strong><br>
+                    1. <strong>碎片未结晶</strong>：『日常灵感速记』中有 6 篇 raw/ 笔记停留于 h=1.0 超过 20 天，尚未触发 Ingest 编译入 wiki/；<br>
+                    2. <strong>反例密度偏低</strong>：部分方法论卡片仅记录正向收益，缺少失败边界与反例卡片支撑。
+                  </div>
+                  <div class="cic-col" style="border-left-color:var(--purple);border-left-width:3px;">
+                    <strong style="color:var(--purple)">→ 下一阶段提升建议</strong><br>
+                    建议打通 [[有限产能模型]] 与 [[Agent回溯规划]] 之间的结构洞（谱间隙增益 +28%），并为每篇核心 Wiki 补充至少 1 条边界反例。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =================================================================
+               PANE C: NOTE EDITOR VIEW (对照图2，展示左/上/右水泡外置后最大化的笔记编辑区)
+               ================================================================= -->
+          <section class="view-pane" id="pane-note">
+            <div style="max-width:780px;margin:0 auto;line-height:1.85;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;">
+                <span class="ux-pill soft-blue">状态 · 进行中</span>
+                <span class="ux-pill soft-teal">#墨图核心</span>
+                <span class="ux-pill soft-teal">#知识图谱</span>
+                <span class="ux-pill soft-purple">🟢 公开知识 · 允许 Wiki 编译</span>
+              </div>
+              <h1 style="font-size:22px;margin-bottom:10px;">00-墨图导览与万象星图（最大化中央编辑区模式）</h1>
+              <p style="color:var(--ink-secondary);margin-bottom:12px;">
+                如您所见，将图 2 左侧的图标栏移到主框体外侧作为<strong>紧凑左水泡（仅占 34px）</strong>、顶部多页签放到主框体外上方作为<strong>26px 轻薄顶水泡</strong>、超出页签顺着<strong>右上边角折叠</strong>、右侧关联项挂在<strong>右外侧水泡条</strong>后，中间的白色工作与写作区域得到了<strong>最大程度的释放</strong>。
+              </p>
+              <p style="color:var(--ink-secondary);">
+                您可以随时点击最左侧第一个图标展开/收起「大纲/文件树」，或点击最右侧的水泡条按需展开/收起「局部图谱与入链脉络」。
+              </p>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Optional Right Context Drawer (与图2右侧完全一致，可通过右侧外置水泡一键收起以100%释放中央区) -->
+        <aside class="right-context-drawer" id="right-context-drawer" hidden>
+          <div class="rc-header">
+            <span id="rc-drawer-title">局部图谱与关联脉络</span>
+            <button type="button" class="ux-pill" id="rc-close-btn" style="height:20px;padding:0 6px;font-size:10px;">收起 ✕</button>
+          </div>
+          <div class="rc-body">
+            <div class="rc-item" style="text-align:center;padding:12px;">
+              <small style="display:block;margin-bottom:6px;">局部图谱 · 13 节点 · 29 连线</small>
+              <svg width="160" height="90" viewBox="0 0 160 90">
+                <line x1="80" y1="45" x2="35" y2="20" stroke="#cbd2d9" />
+                <line x1="80" y1="45" x2="125" y2="22" stroke="#cbd2d9" />
+                <line x1="80" y1="45" x2="40" y2="70" stroke="#cbd2d9" />
+                <line x1="80" y1="45" x2="122" y2="68" stroke="#cbd2d9" />
+                <circle cx="80" cy="45" r="7" fill="#287d77" />
+                <circle cx="35" cy="20" r="4.5" fill="#2b6cb0" />
+                <circle cx="125" cy="22" r="4.5" fill="#6b46c1" />
+                <circle cx="40" cy="70" r="4.5" fill="#b75d28" />
+                <circle cx="122" cy="68" r="4.5" fill="#2f855a" />
+              </svg>
+            </div>
+            <div class="rc-item">
+              <strong>← 双链笔记与卡片盒方法</strong>
+              <small>卢曼卡片盒的精髓不在于收集，而在于让笔记之间发生对话...</small>
+            </div>
+            <div class="rc-item">
+              <strong>← 知识图谱与局部星图</strong>
+              <small>当您在双链笔记与标签体系之间建立引用时，星图连线即刻生长...</small>
+            </div>
+            <div class="rc-item">
+              <strong>🔥 热力学共振唤醒：替代料组分配</strong>
+              <small>沉睡 142 天 · 耦合热 u = 0.42</small>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Native 24px Status Bar -->
+      <footer class="frame-status-bar">
+        <span>已保存到本地知识库</span>
+        <div style="display:flex;gap:14px;">
+          <span>19 笔记 · 29 双链 · 6 认知星点</span>
+          <span>中央有效画布占比：94.6%</span>
+          <span>UTF-8 · v1.0.1</span>
+        </div>
+      </footer>
+    </main>
+
+  </div>
+
+  <script>
+    function switchView(viewName) {
+      document.querySelectorAll('.view-pane').forEach(p => p.classList.toggle('active', p.id === 'pane-' + viewName));
+      document.querySelectorAll('[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === viewName));
+      const titleMap = {
+        workspace: ['工作台 · 可组合个人知识中枢', '6 个模块运行中 · 中央区已最大化（左右与顶栏均已外置为轻薄水泡）'],
+        chronicle: ['认知演进史 · 简约横向时间坐标轴与双链纪传', '上方为时间刻度坐标轴与里程碑点 · 下方为《chronicles/认知演进史.md》具体卡片与 AI 点评'],
+        note: ['00-墨图导览与万象星图.md', '根目录 / 1,418 字 · 右侧栏已收纳至外侧水泡条以最大化正文区']
+      };
+      if (titleMap[viewName]) {
+        document.getElementById('frame-current-title').textContent = titleMap[viewName][0];
+        document.getElementById('frame-current-sub').textContent = titleMap[viewName][1];
+      }
+    }
+
+    document.querySelectorAll('[data-view]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchView(btn.dataset.view);
+        document.getElementById('corner-overflow-menu').hidden = true;
+      });
+    });
+
+    document.getElementById('toggle-left-tree').addEventListener('click', () => {
+      const d = document.getElementById('left-sub-drawer');
+      d.hidden = !d.hidden;
+    });
+
+    const rightDrawer = document.getElementById('right-context-drawer');
+    document.querySelectorAll('[data-right-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const wasActive = btn.classList.contains('active') && !rightDrawer.hidden;
+        document.querySelectorAll('[data-right-tab]').forEach(b => b.classList.remove('active'));
+        if (wasActive) {
+          rightDrawer.hidden = true;
+        } else {
+          btn.classList.add('active');
+          rightDrawer.hidden = false;
+        }
+      });
+    });
+
+    document.getElementById('toggle-right-panel-btn').addEventListener('click', () => {
+      rightDrawer.hidden = !rightDrawer.hidden;
+    });
+    document.getElementById('rc-close-btn').addEventListener('click', () => {
+      rightDrawer.hidden = true;
+      document.querySelectorAll('[data-right-tab]').forEach(b => b.classList.remove('active'));
+    });
+
+    document.getElementById('corner-fold-btn').addEventListener('click', () => {
+      const menu = document.getElementById('corner-overflow-menu');
+      menu.hidden = !menu.hidden;
+    });
+  </script>
+</body>
+</html>

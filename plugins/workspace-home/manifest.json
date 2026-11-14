@@ -1,0 +1,10 @@
+{
+  "id": "workspace-home",
+  "name": "工作台与收集",
+  "version": "0.5.4",
+  "minHost": "0.5.0",
+  "entry": "main.js",
+  "activation": ["startup"],
+  "dependencies": [],
+  "capabilities": ["metadata.read", "vault.read", "vault.write", "views", "commands", "settings"]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "knowledge-graph",
+  "name": "知识图谱",
+  "version": "0.1.0",
+  "minHost": "0.3.3",
+  "entry": "main.js",
+  "activation": ["startup", "manual"],
+  "dependencies": [],
+  "capabilities": ["metadata.read", "vault.write", "views", "commands", "settings"]
+}

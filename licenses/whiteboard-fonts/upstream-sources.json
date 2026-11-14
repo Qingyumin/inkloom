@@ -1,0 +1,42 @@
+[
+    {
+        "file":  "excalidraw-LICENSE.txt",
+        "url":  "https://raw.githubusercontent.com/excalidraw/excalidraw/v0.18.0/LICENSE",
+        "sha256":  "1352d204fdb90d5e482c13139d848bc2c9300a9a7de358a0a558a23e72d0d8be"
+    },
+    {
+        "file":  "Assistant-OFL.txt",
+        "url":  "https://raw.githubusercontent.com/google/fonts/main/ofl/assistant/OFL.txt",
+        "sha256":  "7eaf6282cfab122b99ffd62a122fc27b6c3c8f2c65b56ff9b3a25badbc64887d"
+    },
+    {
+        "file":  "Cascadia-OFL.txt",
+        "url":  "https://raw.githubusercontent.com/microsoft/cascadia-code/v2005.15/LICENSE",
+        "sha256":  "51882cd3cdba4e16f220f44ddb08a635c38c44ea6e0975db2574f4be6f958238"
+    },
+    {
+        "file":  "Lilita-OFL.txt",
+        "url":  "https://raw.githubusercontent.com/google/fonts/main/ofl/lilitaone/OFL.txt",
+        "sha256":  "255d5debbb80eb2ea762644311f266a279e8778f00156655a516e2b7781a63e1"
+    },
+    {
+        "file":  "Nunito-OFL.txt",
+        "url":  "https://raw.githubusercontent.com/google/fonts/main/ofl/nunito/OFL.txt",
+        "sha256":  "580df76c95a1ec5ab878ceb25bb3d85c6a076804e9c970c8c6972aea775fdf65"
+    },
+    {
+        "file":  "Xiaolai-OFL.txt",
+        "url":  "https://raw.githubusercontent.com/lxgw/kose-font/master/OFL.txt",
+        "sha256":  "0df7e09be4c2c850a48bd8beb9cd64b343aad49cd5d3f6cfb2ad2e3d28a56ca4"
+    },
+    {
+        "file":  "harfbuzz-NOTICE.txt",
+        "url":  "https://raw.githubusercontent.com/excalidraw/excalidraw/v0.18.0/packages/excalidraw/subset/harfbuzz/harfbuzz-wasm.ts",
+        "sha256":  "2f1e4a55dd11508d6fe81abefa18e48faf489fc5467c1f8e60f136236fdb1bb4"
+    },
+    {
+        "file":  "woff2-NOTICE.txt",
+        "url":  "https://raw.githubusercontent.com/excalidraw/excalidraw/v0.18.0/packages/excalidraw/subset/woff2/woff2-wasm.ts",
+        "sha256":  "e23370b094641eef798a0a86a509696823734b1ff2658416e770e8a540728f0f"
+    }
+]

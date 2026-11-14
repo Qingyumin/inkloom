@@ -1,0 +1,11 @@
+**/node_modules/
+/app/dist/
+/vendor/inklet/app/dist/
+/build/
+/release/
+/verification/
+/.hallmark/
+*.user
+*.tmp
+.DS_Store
+Thumbs.db

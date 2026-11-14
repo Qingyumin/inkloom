@@ -1,0 +1,10 @@
+{
+  "id": "unlinked-notes",
+  "name": "未关联笔记",
+  "version": "0.1.0",
+  "minHost": "0.3.0",
+  "entry": "main.js",
+  "activation": ["startup", "manual"],
+  "dependencies": [],
+  "capabilities": ["metadata.read", "views", "commands", "settings"]
+}

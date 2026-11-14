@@ -1,0 +1,10 @@
+{
+  "id": "ai-assistant",
+  "name": "智识与技能",
+  "version": "0.8.1",
+  "minHost": "0.8.1",
+  "entry": "main.js",
+  "activation": ["startup"],
+  "dependencies": [],
+  "capabilities": ["metadata.read", "vault.read", "vault.write", "views", "commands", "settings"]
+}

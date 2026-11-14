@@ -1,0 +1,231 @@
+/* Hallmark · tokens.css · Inkloom Austere Paper & Ink System · v2.0.0 */
+:root {
+  color-scheme: light;
+
+  /* 1. Hallmark 4px Spatial Scale */
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 144px;
+
+  /* 2. App-Scope Type Scale (Compact 12px Base, tabular figures) */
+  --text-xs: 0.6875rem;
+  --text-sm: 0.75rem;
+  --text-md: 0.78125rem;
+  --text-lg: 0.875rem;
+  --text-xl: 1rem;
+  --text-2xl: 1.125rem;
+  --text-3xl: 1.25rem;
+  --text-display-s: 1rem;
+  --text-display: 1.125rem;
+  --text-section: 0.9375rem;
+  --text-title: 0.8125rem;
+  --text-lead: 0.8125rem;
+
+  /* 3. Three-Family Typography Discipline (Manrope + Literata + Cascadia Code) */
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-outlier: "Cascadia Code", ui-monospace, monospace;
+  --ui-font: var(--font-body);
+  --font-mono: var(--font-outlier);
+  --reading-font: "Literata", ui-serif, Georgia, serif;
+  --reading-size: 15px;
+  --reading-line-height: 1.75;
+  --reading-paragraph-gap: 0.85em;
+  --reading-width: 760px;
+  --tracking-display: 0;
+  --display-weight: 600;
+
+  /* 4. Motion & Z-Index Ladder */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
+  --container: 1440px;
+  --gutter: 64px;
+  --gap-columns: 32px;
+  --section-gap-s: 120px;
+  --section-gap: 144px;
+  --section-gap-l: 176px;
+
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-sticky-nav: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+
+  /* 5. Sculpted Silver-Stone & Obsidian Charcoal Palette (OKLCH, Chroma >= 0.005) */
+  --color-paper: oklch(96.5% 0.005 255);
+  --color-paper-2: oklch(93.4% 0.006 255);
+  --color-paper-3: oklch(90.0% 0.007 255);
+  --color-ink: oklch(20.0% 0.014 255);
+  --color-ink-2: oklch(30.0% 0.012 255);
+  --color-muted: oklch(44.5% 0.012 255);
+  --color-rule: oklch(86.5% 0.007 255);
+  --color-rule-2: oklch(79.5% 0.009 255);
+
+  /* Signal Accent: Deep Obsidian Slate (#2b313a) */
+  --color-accent: oklch(31.5% 0.014 255);
+  --color-accent-ink: oklch(98.8% 0.003 250);
+  --color-accent-soft: oklch(92.5% 0.008 255);
+  --color-focus: oklch(34.0% 0.025 255);
+
+  /* Semantic Status Signals */
+  --color-success: oklch(44.0% 0.115 155);
+  --color-success-soft: oklch(95.0% 0.025 155);
+  --color-warning: oklch(42.0% 0.115 68);
+  --color-warning-soft: oklch(95.5% 0.025 75);
+  --color-error: oklch(45.0% 0.165 25);
+  --color-error-soft: oklch(95.0% 0.028 25);
+  --danger: var(--color-error);
+
+  /* 6. Concentric Geometry & Hairline Architecture */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-card: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-pill: 999px;
+  --rule-hair: 1px;
+  --shadow-card: 0 2px 8px oklch(18% 0.015 255 / 0.06);
+  --shadow-popover: 0 8px 20px oklch(18% 0.015 255 / 0.12);
+  --shadow-modal: 0 16px 36px oklch(18% 0.015 255 / 0.18);
+  --backdrop-scrim: oklch(16% 0.015 255 / 0.32);
+
+  /* 7. Inkloom Runtime Shell Bridge Tokens */
+  --ui-base: var(--color-paper);
+  --ui-secondary: var(--color-paper-2);
+  --ui-ink: var(--color-ink);
+  --ui-muted: var(--color-muted);
+  --ui-accent: var(--color-accent);
+  --source-bg: var(--color-paper);
+  --reader-bg: var(--color-paper);
+  --pane-bg: var(--color-paper);
+  --pane-ink: var(--color-ink);
+  --pane-muted: var(--color-muted);
+  --pane-accent: var(--color-accent);
+  --border: var(--color-rule);
+  --toolbar: var(--color-paper);
+  --primary-command-ink: var(--color-accent-ink);
+  --pill-accent: var(--ui-accent);
+  --callout-color: var(--ui-accent);
+
+  --shell-header-height: 36px;
+  --shell-control-size: 28px;
+  --shell-icon-size: 14px;
+  --shell-radius: 6px;
+  --shell-sidebar-width: 216px;
+  --shell-context-width: 240px;
+  --glass-light-white: oklch(99.7% 0.002 250);
+  --glass-white: var(--glass-light-white);
+  --glass-dark-white: oklch(26% 0.014 250);
+  --shell-surface: color-mix(in srgb, color-mix(in srgb, var(--ui-secondary) 54%, var(--glass-white)) 74%, transparent);
+  --shell-raised: color-mix(in srgb, color-mix(in srgb, var(--ui-base) 32%, var(--glass-white)) 82%, transparent);
+  --shell-line: color-mix(in srgb, var(--ui-ink) 12%, color-mix(in srgb, var(--ui-base) 40%, var(--glass-white)));
+  --shell-line-strong: color-mix(in srgb, var(--ui-ink) 18%, color-mix(in srgb, var(--ui-base) 48%, var(--glass-white)));
+  --shell-hover: color-mix(in srgb, var(--ui-ink) 7%, var(--glass-white));
+  --shell-active: color-mix(in srgb, var(--ui-ink) 12%, var(--glass-white));
+  --tree-guide: color-mix(in srgb, var(--ui-ink) 16%, transparent);
+  --tree-indent: 14px;
+  --glass-edge: color-mix(in srgb, var(--glass-white) 92%, var(--ui-ink));
+  --glass-outline: color-mix(in srgb, var(--ui-ink) 10%, transparent);
+  --glass-shadow-light: 0 2px 10px oklch(18% 0.015 255 / 0.05), inset 0 1px 0 var(--glass-white), inset 1px 0 0 color-mix(in srgb, var(--glass-white) 80%, transparent);
+  --glass-shadow-dark: 0 2px 10px oklch(10% 0.01 255 / 0.32), inset 0 1px 0 color-mix(in srgb, var(--ui-ink) 12%, transparent);
+  --glass-shadow: var(--glass-shadow-light);
+  --glass-surface: color-mix(in srgb, color-mix(in srgb, var(--ui-base) 38%, var(--glass-white)) 72%, transparent);
+  --glass-control: color-mix(in srgb, color-mix(in srgb, var(--ui-base) 18%, var(--glass-white)) 86%, transparent);
+
+  /* 8. Theme-Tinted Raised Dark Charcoal Rail Bars & Crisp White Line Icons (左侧专属：随主题变化的深色层次阴影条 + 纯白线条图标) */
+  --charcoal-bar-top: oklch(26.5% 0.010 255);
+  --charcoal-bar-bottom: oklch(19.5% 0.010 255);
+  --charcoal-bar-bg: linear-gradient(180deg, color-mix(in srgb, var(--ui-accent) 28%, var(--charcoal-bar-top)) 0%, color-mix(in srgb, var(--ui-ink) 32%, var(--charcoal-bar-bottom)) 100%);
+  --charcoal-bar-edge: color-mix(in srgb, var(--ui-accent) 36%, oklch(35.0% 0.010 255));
+  --charcoal-bar-shadow: 0 6px 14px color-mix(in srgb, var(--ui-ink) 24%, oklch(14% 0.01 255 / 0.18)), 0 2px 4px color-mix(in srgb, var(--ui-accent) 18%, oklch(14% 0.01 255 / 0.12)), inset 0 1px 0 oklch(98% 0.004 250 / 0.18);
+  --charcoal-bar-ink: oklch(94.2% 0.005 250);
+  --charcoal-bar-ink-strong: oklch(99.4% 0.002 250);
+  --charcoal-btn-hover: color-mix(in srgb, var(--ui-accent) 34%, oklch(33.0% 0.012 255));
+  --charcoal-btn-hover-edge: color-mix(in srgb, var(--ui-accent) 48%, oklch(45.5% 0.012 255));
+  --charcoal-btn-active: color-mix(in srgb, var(--ui-accent) 42%, oklch(36.5% 0.012 255));
+  --charcoal-btn-active-edge: color-mix(in srgb, var(--ui-accent) 60%, oklch(53.0% 0.012 255));
+  --charcoal-btn-active-shadow: inset 0 1px 0 oklch(98% 0.004 250 / 0.28), 0 2px 5px oklch(12% 0.01 255 / 0.36);
+
+  /* 9. Sculpted Pearlescent Active Pill & Theme-Tinted Page Controls (页面内主题色立体阴影按钮与选中条) */
+  --page-btn-bg: linear-gradient(180deg, var(--glass-white) 0%, color-mix(in srgb, var(--ui-accent) 12%, var(--ui-base)) 100%);
+  --page-btn-edge: color-mix(in srgb, var(--ui-accent) 26%, var(--shell-line-strong));
+  --page-btn-shadow: 0 2px 5px color-mix(in srgb, var(--ui-accent) 12%, oklch(18% 0.015 255 / 0.06)), inset 0 1px 0 var(--glass-white);
+  --page-btn-hover-bg: linear-gradient(180deg, var(--glass-white) 0%, color-mix(in srgb, var(--ui-accent) 22%, var(--ui-base)) 100%);
+  --page-btn-hover-edge: color-mix(in srgb, var(--ui-accent) 48%, var(--shell-line-strong));
+  --page-btn-active-bg: linear-gradient(180deg, color-mix(in srgb, var(--ui-accent) 18%, var(--glass-white)) 0%, color-mix(in srgb, var(--ui-accent) 30%, var(--ui-base)) 100%);
+  --page-btn-active-edge: color-mix(in srgb, var(--ui-accent) 58%, var(--ui-ink));
+  --sculpted-pill-bg: linear-gradient(90deg, var(--glass-white) 0%, color-mix(in srgb, var(--glass-white) 72%, var(--ui-base)) 100%);
+  --sculpted-pill-edge: var(--glass-white);
+  --sculpted-pill-shadow: 0 2px 8px oklch(18% 0.015 255 / 0.07), inset 0 1px 0 var(--glass-white);
+  --sculpted-pill-shadow-dark: 0 2px 8px oklch(8% 0.01 255 / 0.35), inset 0 1px 0 color-mix(in srgb, var(--ui-ink) 16%, transparent);
+
+  /* Unified Monochrome Icon Tints (取消杂乱八色按钮，统一为深灰/纯白) */
+  --tint-teal: var(--ui-ink);
+  --tint-emerald: var(--ui-ink);
+  --tint-blue: var(--ui-ink);
+  --tint-indigo: var(--ui-ink);
+  --tint-purple: var(--ui-ink);
+  --tint-rose: var(--ui-ink);
+  --tint-amber: var(--ui-ink);
+  --tint-cyan: var(--ui-ink);
+
+  /* Activity Heatmap 4-Step Mineral Ink Scale */
+  --activity-level-1: color-mix(in srgb, var(--ui-accent) 20%, var(--ui-base));
+  --activity-level-2: color-mix(in srgb, var(--ui-accent) 42%, var(--ui-base));
+  --activity-level-3: color-mix(in srgb, var(--ui-accent) 68%, var(--ui-base));
+  --activity-level-4: var(--ui-accent);
+
+  /* Syntax & Editor Semantic Tokens */
+  --code-keyword: oklch(45% 0.14 350);
+  --code-string: oklch(44% 0.11 152);
+  --code-comment: var(--color-muted);
+  --code-number: oklch(48% 0.12 62);
+  --code-function: oklch(45% 0.12 240);
+  --code-type: oklch(46% 0.12 295);
+  --highlight-mark-bg: oklch(88% 0.12 90 / 0.35);
+  --search-match-bg: oklch(86% 0.13 88 / 0.45);
+  --search-match-edge: oklch(62% 0.13 82 / 0.55);
+  --diff-del-bg: oklch(55% 0.18 22 / 0.11);
+  --diff-del-ink: oklch(44% 0.17 22);
+  --diff-add-bg: oklch(55% 0.14 155 / 0.12);
+  --diff-add-ink: oklch(40% 0.13 155);
+  --slide-dark-base: oklch(18% 0.015 250);
+  --slide-dark-surface: oklch(14% 0.012 250);
+  --slide-dark-raised: oklch(22% 0.016 250);
+  --slide-dark-ink: oklch(95% 0.006 250);
+  --slide-dark-muted: oklch(70% 0.012 250);
+  --slide-dark-line: oklch(30% 0.014 250);
+}
+
+:root[data-ui-mode="dark"] {
+  color-scheme: dark;
+  --glass-white: var(--glass-dark-white);
+  --glass-edge: color-mix(in srgb, var(--ui-ink) 18%, var(--ui-secondary));
+  --shell-surface: color-mix(in srgb, var(--ui-secondary) 82%, var(--ui-base));
+  --shell-raised: color-mix(in srgb, var(--ui-secondary) 48%, var(--ui-base));
+  --shell-line: color-mix(in srgb, var(--ui-ink) 16%, var(--ui-base));
+  --shell-line-strong: color-mix(in srgb, var(--ui-ink) 26%, var(--ui-base));
+  --shell-hover: color-mix(in srgb, var(--ui-accent) 18%, var(--ui-base));
+  --shell-active: color-mix(in srgb, var(--ui-accent) 26%, var(--ui-base));
+  --glass-shadow: var(--glass-shadow-dark);
+  --glass-surface: color-mix(in srgb, var(--ui-secondary) 72%, transparent);
+  --glass-control: color-mix(in srgb, var(--ui-secondary) 86%, transparent);
+  --sculpted-pill-bg: linear-gradient(90deg, color-mix(in srgb, var(--ui-secondary) 88%, var(--ui-ink)) 0%, var(--ui-secondary) 100%);
+  --sculpted-pill-edge: color-mix(in srgb, var(--ui-ink) 22%, var(--ui-secondary));
+  --sculpted-pill-shadow: 0 2px 8px oklch(8% 0.01 255 / 0.35), inset 0 1px 0 color-mix(in srgb, var(--ui-ink) 16%, transparent);
+}

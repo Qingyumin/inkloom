@@ -1,0 +1,44 @@
+{
+  "source": "logo-source.png",
+  "sourceSha256": "7eddd960320bd4adcd7a2695d1a6001c6261d7815a6edf2564ee45a5c148089b",
+  "sourceSize": [
+    848,
+    768
+  ],
+  "crop": {
+    "left": 90,
+    "top": 70,
+    "right": 782,
+    "bottom": 739
+  },
+  "transparentPixels": 547878,
+  "visiblePixels": 98353,
+  "sizes": [
+    {
+      "size": 16,
+      "inkPixels": 43
+    },
+    {
+      "size": 32,
+      "inkPixels": 161
+    },
+    {
+      "size": 48,
+      "inkPixels": 393
+    },
+    {
+      "size": 64,
+      "inkPixels": 669
+    },
+    {
+      "size": 256,
+      "inkPixels": 10574
+    },
+    {
+      "size": 512,
+      "inkPixels": 42320
+    }
+  ],
+  "processing": "white-to-alpha; original geometry; theme variants",
+  "verifiedAt": "2026-10-21T14:44:45.456Z"
+}

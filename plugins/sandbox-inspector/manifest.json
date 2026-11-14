@@ -1,0 +1,10 @@
+{
+  "id": "sandbox-inspector",
+  "name": "隔离示例（实验）",
+  "version": "0.2.0",
+  "minHost": "0.3.1",
+  "entry": "main.js",
+  "activation": ["manual"],
+  "dependencies": [],
+  "capabilities": ["metadata.read", "views", "settings", "commands"]
+}
